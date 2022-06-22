@@ -117,13 +117,13 @@ public class Minesweeper {
         int numOfMines = 0;
         try {
             numOfMines = mineArray[x][y+1] +
-                     mineArray[x][y-1] +
-                     mineArray[x+1][y+1] +
-                     mineArray[x+1][y+0] +
-                     mineArray[x+1][y-1] +
-                     mineArray[x-1][y+1] +
-                     mineArray[x-1][y+0] +
-                     mineArray[x-1][y-1];
+                         mineArray[x][y-1] +
+                         mineArray[x+1][y+1] +
+                         mineArray[x+1][y+0] +
+                         mineArray[x+1][y-1] +
+                         mineArray[x-1][y+1] +
+                         mineArray[x-1][y+0] +
+                         mineArray[x-1][y-1];
         } catch (ArrayIndexOutOfBoundsException e) {
 
         }
