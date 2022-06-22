@@ -9,6 +9,7 @@ public class Minesweeper {
     static int[][] mineArray = new int[10][10];
     static List<String> header = new ArrayList<>();
     static String[][] displayArray = new String[10][10];
+    static Boolean[][] checkedArray = new Boolean[10][10];
     static Console cons = System.console();
     public static void main(String[] args) {
 
@@ -26,16 +27,23 @@ public class Minesweeper {
         }
 
         // generate mines at random areas
-        // for(int i = 0; i < 10; i++) {
-        //     int x = randomGenerator.nextInt(10);
-        //     int y = randomGenerator.nextInt(10);
-        //     mineArray[x][y] = 1;
-        // }
+        for(int i = 0; i < 10; i++) {
+            int x = randomGenerator.nextInt(10);
+            int y = randomGenerator.nextInt(10);
+            mineArray[x][y] = 1;
+        }
         
         // generate empty board for display
         for(int i = 0; i < displayArray.length; i++) {
             for(int j = 0; j < displayArray[i].length; j++) {
-                displayArray[i][j] = " |";
+                displayArray[i][j] = " ";
+            }
+        }
+
+        // populate array with info whether tile can be checked
+        for(int i = 0; i < checkedArray.length; i++) {
+            for(int j = 0; j < checkedArray[i].length; j++) {
+                checkedArray[i][j] = false;
             }
         }
 
@@ -51,15 +59,17 @@ public class Minesweeper {
                 coordinates = input.split(",");
                 x = Integer.parseInt(coordinates[0]); y = Integer.parseInt(coordinates[1]);
                 if(mineArray[x][y] == 0) {
+                    check(x, y);
                     checkBorder(x,y);
-                    displayArray[x][y] = "X|";
                     display();
                 } else if (mineArray[x][y] == 1) {
-                    displayArray[x][y] = "!|";
+                    displayArray[x][y] = "!";
                     display();
                     System.out.println("You hit a mine! Game over.");
                     stop = true;
                 }
+            } else if (input.equals("check")) {
+                checkMines();
             }
             else {
                 System.out.println("Invalid input!");
@@ -74,6 +84,7 @@ public class Minesweeper {
             System.out.print(i+"|");
             for(int j = 0; j < displayArray[i].length; j++) {
                 System.out.print(displayArray[i][j]);
+                System.out.print("|");
             }
             System.out.println();
         }
@@ -81,8 +92,8 @@ public class Minesweeper {
     }
 
     public static void checkBorder(int x, int y) {
-        if(displayArray[x][y].equals(" |")) {
-
+        if(checkedArray[x][y].equals(false)) {
+            checkedArray[x][y] = true;
             if(x-1 >= 0 && y+1 < 10) {
                 if(check(x-1, y+1).equals("0")) {
                     checkBorder(x-1, y+1);
@@ -128,7 +139,6 @@ public class Minesweeper {
                 }
             }
         }
-        check(x, y);
     }
 
     public static String check(int x, int y) {
@@ -146,9 +156,17 @@ public class Minesweeper {
 
         }
 
-        displayArray[x][y] = String.valueOf(numOfMines + "|");
+        displayArray[x][y] = String.valueOf(numOfMines);
 
         return String.valueOf(numOfMines);
     }
 
+    public static void checkMines() {
+        for(int i = 0; i < mineArray.length; i++) {
+            for(int j = 0; j < mineArray[i].length; j++) {
+                System.out.print(mineArray[i][j]);
+            }
+            System.out.println();
+        }
+    }
 }
