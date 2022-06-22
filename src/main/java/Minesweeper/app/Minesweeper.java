@@ -18,18 +18,21 @@ public class Minesweeper {
         Random randomGenerator = new Random();
         boolean stop = false;
 
+        //populate non mined board
         for(int i = 0; i < mineArray.length; i++) {
             for(int j = 0; j < mineArray[i].length; j++) {
                 mineArray[i][j] = 0;
             }
         }
 
-        for(int i = 0; i < 10; i++) {
-            int x = randomGenerator.nextInt(10);
-            int y = randomGenerator.nextInt(10);
-            mineArray[x][y] = 1;
-        }
-
+        // generate mines at random areas
+        // for(int i = 0; i < 10; i++) {
+        //     int x = randomGenerator.nextInt(10);
+        //     int y = randomGenerator.nextInt(10);
+        //     mineArray[x][y] = 1;
+        // }
+        
+        // generate empty board for display
         for(int i = 0; i < displayArray.length; i++) {
             for(int j = 0; j < displayArray[i].length; j++) {
                 displayArray[i][j] = " |";
@@ -79,40 +82,53 @@ public class Minesweeper {
 
     public static void checkBorder(int x, int y) {
         if(displayArray[x][y].equals(" |")) {
-            if((x-1) >= 0 && (y+1) < 10 && (y-1) >= 0) {
+
+            if(x-1 >= 0 && y+1 < 10) {
                 if(check(x-1, y+1).equals("0")) {
                     checkBorder(x-1, y+1);
                 }
+            }
+            if(x-1 >=0) {
                 if(check(x-1, y+0).equals("0")) {
                     checkBorder(x-1, y+0);
                 }
+            }
+            if(x-1 >= 0 && y-1 >= 0) {
                 if(check(x-1, y-1).equals("0")) {
                     checkBorder(x-1, y-1);
                 }
             }
+                
     
-            if(y+1 < 10 && y-1 >= 0) {
+            if(y+1 < 10) {
                 if(check(x+0, y+1).equals("0")) {
                     checkBorder(x+0, y+1);
                 }
+            }
+            if(y-1 >=0) {
                 if(check(x+0, y-1).equals("0")) {
                     checkBorder(x+0, y-1);
                 }
             }
+                
             
-            if(x+1 < 10 && y+1 < 10 && y-1 >= 0) {
+            if(x+1 < 10 && y+1 < 10) {
                 if(check(x+1, y+1).equals("0")) {
                     checkBorder(x+1, y+1);
                 }
+            }
+            if(x+1 <10) {
                 if(check(x+1, y+0).equals("0")) {
                     checkBorder(x+1, y+0);
                 }
+            }
+            if(x+1 < 10 && y-1 >= 0) {
                 if(check(x+1, y-1).equals("0")) {
                     checkBorder(x+1, y-1);
                 }
             }
         }
-        
+        check(x, y);
     }
 
     public static String check(int x, int y) {
@@ -129,12 +145,8 @@ public class Minesweeper {
         } catch (ArrayIndexOutOfBoundsException e) {
 
         }
-        
-        if(numOfMines == 0)
-            displayArray[x][y] = "X|";
-        else
-            displayArray[x][y] = String.valueOf(numOfMines+"|");
 
+        displayArray[x][y] = String.valueOf(numOfMines + "|");
 
         return String.valueOf(numOfMines);
     }
