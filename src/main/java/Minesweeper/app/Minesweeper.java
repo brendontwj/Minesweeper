@@ -66,7 +66,7 @@ public class Minesweeper {
                 System.out.println("Invalid input!");
             }
             // player wins if all tiles have been checked
-            if (checkWin() == true); {
+            if (checkWin()) {
                 System.out.println("You won!");
                 break;
             }
